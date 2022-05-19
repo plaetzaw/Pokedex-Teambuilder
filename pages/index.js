@@ -1,25 +1,15 @@
 // import type { NextPage } from 'next'
-import { useState, useEffect } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
 import styled from "styled-components";
 import styles from "../styles/Home.module.css";
 
-const DexLayout = styled.div`
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  grid-gap: 1em;
-`;
-
-const DexItem = styled.div`
-  max-height: 250px;
-`;
 
 export async function getStaticProps(context) {
   try {
-    const res = await fetch("https://pokeapi.co/api/v2/pokemon?limit=151");
-    // const res = await fetch('https://pokeapi.co/api/v2/pokemon?limit=1100');
+    const res = await fetch("https://pokeapi.co/api/v2/pokemon?limit=898");
+    // const res = await fetch('https://pokeapi.co/api/v2/pokemon?limit=898');
     const { results } = await res.json();
     const pokemon = results.map((pokeman, index) => {
       const dexNumber = ("00" + (index + 1)).slice(-3);
@@ -39,7 +29,7 @@ export async function getStaticProps(context) {
 
 // const Home: NextPage = () => {
 const Home = ({ pokemon }) => {
-  console.log(pokemon);
+  // console.log(pokemon);
 
   const DexEntry = pokemon.map((pokemon, index) => {
     const Name = pokemon.name[0].toUpperCase() + pokemon.name.substring(1);
@@ -48,9 +38,9 @@ const Home = ({ pokemon }) => {
     return (
       <div key={index}>
         {dexNumber} {Name}
-        {/* <Link href={`/pokemon/${dexNumber}`}> */}
-        <Link href={`/pokemon/${index + 1}`}>
-          <Image src={pokemon.image} height="250px" width="250px" />
+        {/* <Link href={`/pokemon/${index + 1}`}> */}
+        <Link href={`/pokemon/${pokemon.name}`}>
+          <a><Image src={pokemon.image} height="250px" width="250px" /></a>
         </Link>
       </div>
     );

@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import Image from "next/image";
 import styles from "../../styles/Pokemon.module.css";
-import Link from 'next/Link'
+import Link from 'next/link'
 
 export default function DexEntry({ pokemon }) {
   console.log(pokemon);
@@ -39,7 +39,7 @@ export default function DexEntry({ pokemon }) {
 
   return (
     <>
-      <Link href={"/"}>RETURN</Link>
+      <Link href="/"><a>Return to Dex</a></Link>
       <div className={styles.layout}>
         <div className={styles.card}>
           <div className={styles.row}>
@@ -49,6 +49,9 @@ export default function DexEntry({ pokemon }) {
             </div>
             <div className={styles.image}>
               <img src={Picture} />
+            {/* <Image src={Picture} 
+              height={'150'}
+              width={'150'}/> */}
             </div>
           </div>
           <table>

@@ -12,20 +12,17 @@ yarn dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+## Plans
+So here is the plan, the initial version will use SSR and minimal styling to get a deployed version up.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+The next update will migrate over to SSG. I plan on intergrating a serach feature with SSR.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+Next I want to add a team builder function, allowing a user to build a team and display their movepools to show type coverage. 
 
-## Learn More
+## Issues
+The primary issue right now is for the basedex, the PokeAPI does not attatch the dex# to the main listing, so we can't grab the dex# to look up the details. Thus we have to use a modified index number.
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+However, the PokeAPI does support `name` as a search param, so I may migrate to that instead of index #. Plus being able to support regional forms and mega evolution I would not be able to use `index` or `dex#s`.
 
 ## Deploy on Vercel
 

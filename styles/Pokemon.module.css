@@ -1,0 +1,41 @@
+.layout {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+}
+
+.card {
+    width: clamp(45ch, 50%, 75ch);
+    display: flex;
+    flex-direction: column;
+    background: lightpink;
+    padding: 1rem;
+    border: 1em firebrick solid;
+  }
+  
+  .image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* height: 100px; */
+    width: 100%;
+    /* background: wheat; */
+    margin: 0.5rem 0;
+  }
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.name {
+    font-size: 2em;
+}
+
+

@@ -3,16 +3,20 @@ import Head from "next/head";
 import Image from "next/image";
 import styles from "../../styles/Pokemon.module.css";
 import Link from 'next/link'
+import { callbackify } from "util";
 
 export default function DexEntry({ pokemon }) {
+    console.log(pokemon)
   const {
     query: { id },
   } = useRouter();
 
   const Name = pokemon.name[0].toUpperCase() + pokemon.name.substring(1);
   const Picture = pokemon.image;
+  let BST
 
   const StatTable = pokemon.stats.map((stat) => {
+    BST += stat.base_stat;
     const Stat = stat.stat.name[0].toUpperCase() + stat.stat.name.substring(1);
     let StatName = Stat;
     if (Stat === "Hp") {
@@ -23,10 +27,46 @@ export default function DexEntry({ pokemon }) {
       StatName = "Special Defense";
     }
 
+    let statColor
+    switch (Stat) {
+        case 'Hp': {
+            statColor = '#E32925'
+            break
+        }
+        case 'Attack': {
+            statColor = '#F89E33'
+            break
+        }
+        case 'Defense': {
+            statColor = '#ECD715'
+            break
+        }
+        case 'Special-attack': {
+            statColor = '#55B847'
+            break
+        }
+        case 'Special-defense': {
+            statColor = '#63CADE'
+            break
+        }
+        case 'Speed': {
+            statColor = '#8B4A9D'
+            break
+        }
+        default: {
+            statColor = '#D23C95'
+        }
+    }
+
+
     return (
       <tr key={stat.stat.name}>
-        <td>{StatName}</td>
-        <td>{stat.base_stat}</td>
+        <td style={{width: '125px', textAlign:'left'}}>{StatName}</td>
+        {/* <td className={styles.StatName} style={{width: '20px'}}>{stat.base_stat}</td> */}
+        <td style={{width: '255px', backgroundColor: 'grey'}}>
+        {/* <td style={{width: '255px', backgroundColor: `${statColor}`}}> */}
+            <div style={{width: `calc(100% * ${stat.base_stat}/255)`, height: '25px', backgroundColor: `${statColor}`}}><b>{stat.base_stat}</b></div>
+        </td>
       </tr>
     );
   });
@@ -61,8 +101,9 @@ export default function DexEntry({ pokemon }) {
           <table>
             <thead>
               <tr>
-                <th>Stat</th>
-                <th>Total</th>
+                <th className={styles.StatName}>Stat</th>
+                <th className={styles.StatName}>Total</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>{StatTable}</tbody>

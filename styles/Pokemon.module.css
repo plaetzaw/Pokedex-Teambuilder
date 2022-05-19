@@ -5,7 +5,7 @@
 }
 
 .card {
-    width: clamp(45ch, 50%, 75ch);
+    width: clamp(45ch, 50%, 60ch);
     display: flex;
     flex-direction: column;
     background: lightpink;

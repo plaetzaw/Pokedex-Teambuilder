@@ -3,7 +3,6 @@ import Head from "next/head";
 import Image from "next/image";
 import styles from "../../styles/Pokemon.module.css";
 import Link from 'next/link'
-import { callbackify } from "util";
 
 export default function DexEntry({ pokemon }) {
     console.log(pokemon)
@@ -98,7 +97,7 @@ export default function DexEntry({ pokemon }) {
               width={'150'}/> */}
             </div>
           </div>
-          <table>
+          <table style={{borderSpacing: '5px'}}>
             <thead>
               <tr>
                 <th className={styles.StatName}>Stat</th>
@@ -131,17 +130,38 @@ export async function getStaticProps({ params }) {
     const pokemon = await res.json();
     const dexId = ("00" + pokemon.id).slice(-3);
     //Here we are checking to see if the pokmeon has multiple forms
-    // const formdetails = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${pokemon.id}`)
-    // const variations = await formdetails.json()
-    // pokemon.variations = variations
-    // console.log('number of variations', variations.varieties.length)
-    // let megaOrRegionalForm = []
-    // if (variations.varieties.length > 1) {
-        
-        
-    // }
+    const formdetails = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${pokemon.id}`)
+    const variations = await formdetails.json()
+    pokemon.variations = variations
+    console.log('number of variations', variations.varieties.length)
+    let pokemonResults = []
+    let megaOrRegionalForm = []
+    if (variations.varieties.length > 1) {
+        for (let i = 0; i < variations.varieties.length; i++) {
+            if (variations.varieties[i].is_default === false) {
+                megaOrRegionalForm.push(variations.varieties[i].pokemon.url)
+            }
+        } 
+    }
+    // console.log(megaOrRegionalForm)
+
+    let alternateForms = []
+    async function getVariants() {
+        let newForms = await Promise.allSettled(megaOrRegionalForm.map((form) => fetch(form).then((r) => r.json())))
+        // console.log('new Forms', newForms)
+        return newForms
+    }
+    // console.log('length check', megaOrRegionalForm.length)
+    if (megaOrRegionalForm.length > 0) {
+        alternateForms = await getVariants()
+    }
+    // alternateForms = await getVariants()
+    
+    // console.log('alternateForms?', alternateForms)
+
     // pokemon.image = 'https://assets.pokemon.com/assets/cms2/img/pokedex/detail/10033.png';
     pokemon.image = `https://assets.pokemon.com/assets/cms2/img/pokedex/detail/${dexId}.png`;
+    pokemon.alternateForms = alternateForms
 
     return {
       props: {

@@ -4,13 +4,26 @@
   min-height: 100vh;
 }
 
+.returnToDex, 
+.returnToDex :hover{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: mediumslateblue;
+    font-size: 2em;
+    padding: 0.25em 0 0 0;
+    cursor: pointer;
+
+}
+
 .card {
     width: clamp(45ch, 50%, 60ch);
     display: flex;
     flex-direction: column;
-    background: lightpink;
+    /* background: linear-gradient(#13547a, #80d0c7); */
+    background: whitesmoke;
     padding: 1rem;
-    border: 1em firebrick solid;
+    border: 1em yellowgreen solid;
   }
   
   .image {
@@ -36,8 +49,20 @@
 
 .name {
     font-size: 2em;
+    padding: 0 0 0.5em 0;
+    margin: 0;
+}
+
+.cardItem {
     padding: 0;
     margin: 0;
 }
 
-
+.type {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 0 0.25em 0 0.25em;
+    padding: 0 0.25em 0 0.25em;
+    color: white;
+}

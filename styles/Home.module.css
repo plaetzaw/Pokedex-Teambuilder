@@ -40,3 +40,9 @@
 .dexItem {
   max-height: 250px;
 }
+
+.sampleButton {
+  height: 40px;
+  width: 40px;
+  background: mediumslateblue;
+}

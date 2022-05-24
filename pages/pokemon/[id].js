@@ -12,7 +12,10 @@ export default function DexEntry({ pokemon }) {
 
   const Name = pokemon.name[0].toUpperCase() + pokemon.name.substring(1);
   const Picture = pokemon.image;
-  let BST
+  let BST = 0
+  let statColor
+  let BSTColor
+
 
   const StatTable = pokemon.stats.map((stat) => {
     BST += stat.base_stat;
@@ -26,7 +29,6 @@ export default function DexEntry({ pokemon }) {
       StatName = "Special Defense";
     }
 
-    let statColor
     switch (Stat) {
         case 'Hp': {
             statColor = '#E32925'
@@ -57,13 +59,49 @@ export default function DexEntry({ pokemon }) {
         }
     }
 
+    console.log(BST)
+
+
+    switch (BST) {
+        case BST < 400: {
+            BSTColor = 'red'
+            break
+        }
+        case 400 > BST > 500: {
+            BSTColor = 'blue'
+            break
+        }
+        case 500 > BST > 550: {
+            BSTColor = 'purple'
+            break
+        }
+        case 551 > BST > 600: {
+            BSTColor = 'green'
+            break
+        }
+        case 601 > BST > 679: {
+            BSTColor = 'gold'
+            break
+        }
+        case BST === 680: {
+            BSTColor = 'white'
+            break
+        }
+        default: {
+            BSTColor = 'green'
+            // BSTColor = '#D23C95'
+
+        }
+    }
+
+    // console.log(BST, BSTColor)
+
+
 
     return (
       <tr key={stat.stat.name}>
         <td style={{width: '125px', textAlign:'left'}}>{StatName}</td>
-        {/* <td className={styles.StatName} style={{width: '20px'}}>{stat.base_stat}</td> */}
         <td style={{width: '255px', backgroundColor: 'grey'}}>
-        {/* <td style={{width: '255px', backgroundColor: `${statColor}`}}> */}
             <div style={{width: `calc(100% * ${stat.base_stat}/255)`, height: '25px', backgroundColor: `${statColor}`}}><b>{stat.base_stat}</b></div>
         </td>
       </tr>
@@ -88,13 +126,14 @@ export default function DexEntry({ pokemon }) {
           <div className={styles.row}>
             <div className={styles.column}>
               <h1 className={styles.name}>{Name}</h1>
+              <p style={{color: `${BSTColor}`}}>BST: {BST}</p>
               {Types}
             </div>
             <div className={styles.image}>
-              <img src={Picture} />
-            {/* <Image src={Picture} 
-              height={'150'}
-              width={'150'}/> */}
+              {/* <img src={Picture} /> */}
+            <Image src={Picture} 
+              height={'200'}
+              width={'200'}/>
             </div>
           </div>
           <table style={{borderSpacing: '5px'}}>
@@ -130,38 +169,32 @@ export async function getStaticProps({ params }) {
     const pokemon = await res.json();
     const dexId = ("00" + pokemon.id).slice(-3);
     //Here we are checking to see if the pokmeon has multiple forms
-    const formdetails = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${pokemon.id}`)
-    const variations = await formdetails.json()
-    pokemon.variations = variations
-    console.log('number of variations', variations.varieties.length)
-    let pokemonResults = []
-    let megaOrRegionalForm = []
-    if (variations.varieties.length > 1) {
-        for (let i = 0; i < variations.varieties.length; i++) {
-            if (variations.varieties[i].is_default === false) {
-                megaOrRegionalForm.push(variations.varieties[i].pokemon.url)
-            }
-        } 
-    }
-    // console.log(megaOrRegionalForm)
 
-    let alternateForms = []
-    async function getVariants() {
-        let newForms = await Promise.allSettled(megaOrRegionalForm.map((form) => fetch(form).then((r) => r.json())))
-        // console.log('new Forms', newForms)
-        return newForms
-    }
-    // console.log('length check', megaOrRegionalForm.length)
-    if (megaOrRegionalForm.length > 0) {
-        alternateForms = await getVariants()
-    }
-    // alternateForms = await getVariants()
-    
-    // console.log('alternateForms?', alternateForms)
+    // const formdetails = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${pokemon.id}`)
+    // const variations = await formdetails.json()
+    // pokemon.variations = variations
+    // console.log('number of variations', variations.varieties.length)
+    // let megaOrRegionalForm = []
+    // if (variations.varieties.length > 1) {
+    //     for (let i = 0; i < variations.varieties.length; i++) {
+    //         if (variations.varieties[i].is_default === false) {
+    //             megaOrRegionalForm.push(variations.varieties[i].pokemon.url)
+    //         }
+    //     } 
+    // }
+
+    // let alternateForms = []
+    // async function getVariants() {
+    //     let newForms = await Promise.allSettled(megaOrRegionalForm.map((form) => fetch(form).then((r) => r.json())))
+    //     return newForms
+    // }
+    // if (megaOrRegionalForm.length > 0) {
+    //     alternateForms = await getVariants()
+    // }
 
     // pokemon.image = 'https://assets.pokemon.com/assets/cms2/img/pokedex/detail/10033.png';
     pokemon.image = `https://assets.pokemon.com/assets/cms2/img/pokedex/detail/${dexId}.png`;
-    pokemon.alternateForms = alternateForms
+    // pokemon.alternateForms = alternateForms
 
     return {
       props: {

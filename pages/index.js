@@ -1,15 +1,14 @@
 // import type { NextPage } from 'next'
+import {useState, useEffect} from 'react'
 import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
-import styled from "styled-components";
 import styles from "../styles/Home.module.css";
 
 
 export async function getStaticProps(context) {
   try {
     const res = await fetch("https://pokeapi.co/api/v2/pokemon?limit=898");
-    // const res = await fetch('https://pokeapi.co/api/v2/pokemon?limit=898');
     const { results } = await res.json();
     const pokemon = results.map((pokeman, index) => {
       const dexNumber = ("00" + (index + 1)).slice(-3);
@@ -30,8 +29,56 @@ export async function getStaticProps(context) {
 // const Home: NextPage = () => {
 const Home = ({ pokemon }) => {
   // console.log(pokemon);
+  const [filterPokemon, setFilterPokemon] = useState([])
 
-  const DexEntry = pokemon.map((pokemon, index) => {
+  useEffect(() => {
+    const filterMon = () => {
+      setFilterPokemon(pokemon)
+    }
+    filterMon()
+  }, [])
+
+  // console.log('base list', pokemon)
+  // console.log(filterPokemon)
+
+  const reset = async () => {
+    setFilterPokemon(pokemon)
+    console.log('fired the reset function')
+  }
+
+  const filter = (filterMon) => {
+    let updateArray = []
+    pokemon.map(poke => {
+      if (poke.name.includes(filterMon)) {
+        updateArray.push(poke)
+        setFilterPokemon(updateArray)
+      } 
+    })
+  }
+
+  const setGeneration = async (gen) => {
+    console.log('Checking Gen', gen)
+    await reset()
+    // if (gen === generation) {
+    //   return null
+    // }
+    switch (gen) {
+      case 'Gen1':
+        setFilterPokemon(filterPokemon.slice(0, 151))
+        console.log(filterPokemon)
+        break;
+      case 'Gen2':
+        setFilterPokemon(filterPokemon.slice(151, 250))
+        console.log(filterPokemon)
+        break;
+      default:
+        setFilterPokemon(pokemon)
+        break;
+    }
+  }
+
+  // const DexEntry = pokemon.map((pokemon, index) => {
+  const DexEntry = filterPokemon.map((pokemon, index) => {
     const Name = pokemon.name[0].toUpperCase() + pokemon.name.substring(1);
     const dexNumber = ("00" + (index + 1)).slice(-3);
 
@@ -55,7 +102,10 @@ const Home = ({ pokemon }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className={styles.title}>Pokedex</div>
-      <div></div>
+      {/* <input className={styles.sampleInput} onChange={(e => {filter(e.target.value)})}/> */}
+      {/* <div><button className={styles.sampleButton}onClick={() => {setGeneration('Gen1')}}/></div>
+      <div><button className={styles.sampleButton}onClick={() => {setGeneration('Gen2')}}/></div> */}
+
       <div className={styles.dexLayout}>{DexEntry}</div>
     </>
   );

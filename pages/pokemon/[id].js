@@ -5,7 +5,7 @@ import styles from "../../styles/Pokemon.module.css";
 import Link from 'next/link'
 
 export default function DexEntry({ pokemon }) {
-    console.log(pokemon)
+    // console.log(pokemon)
   const {query: { id } } = useRouter();
 
   const Name = pokemon.name[0].toUpperCase() + pokemon.name.substring(1);
@@ -163,12 +163,11 @@ export default function DexEntry({ pokemon }) {
   });
 
 
-  {}
   const AlternateForms = pokemon.alternateForms.map((form) => {     
       let pokemon = form.value
       const Name = pokemon.name[0].toUpperCase() + pokemon.name.substring(1);
       let altBST = 0
-      const Picture = pokemon.sprites.other["official-artwork"].front_default
+      const AltPicture = (pokemon.sprites.other["official-artwork"].front_default === null) ? Picture : pokemon.sprites.other["official-artwork"].front_default 
       const Kilograms = pokemon.weight*0.1
       const Pounds = (Kilograms*2.20462).toFixed(2)
       const Meters = (pokemon.height*0.1).toFixed(2)
@@ -331,7 +330,8 @@ export default function DexEntry({ pokemon }) {
               <div className={styles.row}>Types: {Types}</div>
             </div>
             <div className={styles.image}>
-            <Image src={Picture} 
+            <Image 
+              src={AltPicture}
               height={250}
               width={250}/>
             </div>
@@ -374,7 +374,8 @@ export default function DexEntry({ pokemon }) {
               {/* <img src={Picture} /> */}
             <Image src={Picture} 
               height={250}
-              width={250}/>
+              width={250}
+              />
             </div>
           </div>
           <table style={{borderSpacing: '5px'}}>
@@ -411,13 +412,19 @@ export async function getStaticProps({ params }) {
     const pokemon = await res.json();
     const dexId = ("00" + pokemon.id).slice(-3);
     pokemon.image = `https://assets.pokemon.com/assets/cms2/img/pokedex/detail/${dexId}.png`;
+    let alternateForms = []
+    let megaOrRegionalForm = []
 
+    // if (pokemon.name === 'pikachu') {
+
+    // }
+
+    // if (pokemon.name !== 'pikachu') {
     //Here we are checking to see if the pokmeon has multiple forms
     const formdetails = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${pokemon.id}`)
     const variations = await formdetails.json()
     pokemon.variations = variations
     console.log('number of variations', variations.varieties.length)
-    let megaOrRegionalForm = []
     if (variations.varieties.length > 1) {
         for (let i = 0; i < variations.varieties.length; i++) {
             if (variations.varieties[i].is_default === false) {
@@ -426,7 +433,6 @@ export async function getStaticProps({ params }) {
         } 
     }
 
-    let alternateForms = []
     async function getVariants() {
         let newForms = await Promise.allSettled(megaOrRegionalForm.map((form) => fetch(form).then((r) => r.json())))
         return newForms
@@ -435,6 +441,9 @@ export async function getStaticProps({ params }) {
         alternateForms = await getVariants()
     }
     pokemon.alternateForms = alternateForms
+
+    console.log('final prop', pokemon)
+// }
 
     return {
       props: {

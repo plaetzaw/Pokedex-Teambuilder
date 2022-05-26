@@ -102,9 +102,9 @@ const Home = ({ pokemon }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className={styles.title}>Pokedex</div>
-      <input className={styles.sampleInput} onChange={(e => {filter(e.target.value)})}/>
-      <div><button className={styles.sampleButton}onClick={() => {setGeneration('Gen1')}}/></div>
-      <div><button className={styles.sampleButton}onClick={() => {setGeneration('Gen2')}}/></div>
+      {/* <input className={styles.sampleInput} onChange={(e => {filter(e.target.value)})}/> */}
+      {/* <div><button className={styles.sampleButton}onClick={() => {setGeneration('Gen1')}}/></div>
+      <div><button className={styles.sampleButton}onClick={() => {setGeneration('Gen2')}}/></div> */}
 
       <div className={styles.dexLayout}>{DexEntry}</div>
     </>

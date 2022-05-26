@@ -2,6 +2,7 @@
   font-size: 3em;
   text-align: center;
   color: mediumslateblue;
+  background-color: black;
 }
 
 .dexLayout {
@@ -9,6 +10,8 @@
   /* grid-template-columns: repeat(2, 1fr); */
   grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr));
   grid-gap: 1em;
+  background-color: black;
+  
 }
 
 .dexCard {

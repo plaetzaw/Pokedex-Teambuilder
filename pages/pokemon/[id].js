@@ -414,17 +414,11 @@ export async function getStaticProps({ params }) {
     pokemon.image = `https://assets.pokemon.com/assets/cms2/img/pokedex/detail/${dexId}.png`;
     let alternateForms = []
     let megaOrRegionalForm = []
-
-    // if (pokemon.name === 'pikachu') {
-
-    // }
-
-    // if (pokemon.name !== 'pikachu') {
     //Here we are checking to see if the pokmeon has multiple forms
     const formdetails = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${pokemon.id}`)
     const variations = await formdetails.json()
     pokemon.variations = variations
-    console.log('number of variations', variations.varieties.length)
+    // console.log('number of variations', variations.varieties.length)
     if (variations.varieties.length > 1) {
         for (let i = 0; i < variations.varieties.length; i++) {
             if (variations.varieties[i].is_default === false) {
@@ -442,8 +436,6 @@ export async function getStaticProps({ params }) {
     }
     pokemon.alternateForms = alternateForms
 
-    console.log('final prop', pokemon)
-// }
 
     return {
       props: {

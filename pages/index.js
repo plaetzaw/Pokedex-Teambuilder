@@ -39,11 +39,11 @@ const Home = ({ pokemon }) => {
   }, [])
 
   // console.log('base list', pokemon)
-  console.log(filterPokemon)
+  // console.log(filterPokemon)
 
   const reset = async () => {
-    console.log('fired the reset function')
     setFilterPokemon(pokemon)
+    console.log('fired the reset function')
   }
 
   const filter = (filterMon) => {
@@ -58,17 +58,18 @@ const Home = ({ pokemon }) => {
 
   const setGeneration = async (gen) => {
     console.log('Checking Gen', gen)
+    await reset()
     // if (gen === generation) {
     //   return null
     // }
     switch (gen) {
       case 'Gen1':
         setFilterPokemon(filterPokemon.slice(0, 151))
-        reset()
+        console.log(filterPokemon)
         break;
       case 'Gen2':
         setFilterPokemon(filterPokemon.slice(151, 250))
-        reset()
+        console.log(filterPokemon)
         break;
       default:
         setFilterPokemon(pokemon)

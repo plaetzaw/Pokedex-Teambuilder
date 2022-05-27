@@ -88,6 +88,7 @@ const Home = ({ pokemon }) => {
         <link rel="icon" href="/masterball.png" />
       </Head>
       <div className={styles.header}>
+        <div className={styles.mobileTitleText}><h1>Pokedex</h1></div>
         <div className={styles.headerButtonCol}>
           <div className={styles.headerMiniCol}>
           <h4>Filter by Generation</h4>
@@ -106,7 +107,7 @@ const Home = ({ pokemon }) => {
       <h1 className={styles.titleText}>Pokedex</h1>
       <div className={styles.headerMiniCol}>
       <h4>Filter by Pokemon</h4>
-      <div className={styles.searchWrapper}><input className={styles.search} onChange={(e => {filter(e.target.value)})}/></div>
+      <input className={styles.search} onChange={(e => {filter(e.target.value)})}/>
       </div>
 
       </div>

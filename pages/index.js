@@ -16,6 +16,7 @@ export async function getStaticProps(context) {
       return {
         ...pokeman,
         image,
+        dexNumber
       };
     });
     return {
@@ -38,56 +39,29 @@ const Home = ({ pokemon }) => {
     filterMon()
   }, [])
 
-  // console.log('base list', pokemon)
-  // console.log(filterPokemon)
+  console.log(filterPokemon)
 
-  const reset = async () => {
-    setFilterPokemon(pokemon)
-    console.log('fired the reset function')
-  }
 
   const filter = (filterMon) => {
     let updateArray = []
     pokemon.map(poke => {
       if (poke.name.includes(filterMon)) {
+        console.log('filterTerm', filterMon)
         updateArray.push(poke)
-        setFilterPokemon(updateArray)
       } 
     })
+    setFilterPokemon(updateArray)
   }
 
-  const setGeneration = async (gen) => {
-    console.log('Checking Gen', gen)
-    await reset()
-    // if (gen === generation) {
-    //   return null
-    // }
-    switch (gen) {
-      case 'Gen1':
-        setFilterPokemon(filterPokemon.slice(0, 151))
-        console.log(filterPokemon)
-        break;
-      case 'Gen2':
-        setFilterPokemon(filterPokemon.slice(151, 250))
-        console.log(filterPokemon)
-        break;
-      default:
-        setFilterPokemon(pokemon)
-        break;
-    }
-  }
-
-  // const DexEntry = pokemon.map((pokemon, index) => {
   const DexEntry = filterPokemon.map((pokemon, index) => {
+  // const DexEntry = filterPokemon.map((pokemon, index) => {
     const Name = pokemon.name[0].toUpperCase() + pokemon.name.substring(1);
-    const dexNumber = ("00" + (index + 1)).slice(-3);
 
     return (
       <Link key={index} href={`/pokemon/${pokemon.name}`}>
       <div  className={styles.dexCard}>
-        <p className={styles.dexNumber}>{dexNumber}</p> 
+        <p className={styles.dexNumber}>{pokemon.dexNumber}</p> 
         <h3 className={styles.dexName}> {Name}</h3>
-        {/* <Link href={`/pokemon/${index + 1}`}> */}
           <a><Image src={pokemon.image} height="250px" width="250px" /></a>
       </div>
       </Link>
@@ -102,9 +76,9 @@ const Home = ({ pokemon }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className={styles.title}>Pokedex</div>
-      {/* <input className={styles.sampleInput} onChange={(e => {filter(e.target.value)})}/> */}
-      {/* <div><button className={styles.sampleButton}onClick={() => {setGeneration('Gen1')}}/></div>
-      <div><button className={styles.sampleButton}onClick={() => {setGeneration('Gen2')}}/></div> */}
+      <input className={styles.sampleInput} onChange={(e => {filter(e.target.value)})}/>
+      <div><button className={styles.sampleButton}onClick={() => {setGeneration('Gen1')}}/></div>
+      <div><button className={styles.sampleButton}onClick={() => {setGeneration('Gen2')}}/></div>
 
       <div className={styles.dexLayout}>{DexEntry}</div>
     </>

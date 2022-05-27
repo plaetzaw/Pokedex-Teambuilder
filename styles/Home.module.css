@@ -1,8 +1,42 @@
-.title {
-  font-size: 3em;
-  text-align: center;
-  color: mediumslateblue;
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  color: whitesmoke;
   background-color: black;
+  font-size: 1.25em;
+}
+
+.headerButtonCol {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 30%;
+}
+
+.headerMiniCol {
+  display: flex;
+  flex-direction: column;
+}
+
+.titleText {
+  font-size: 2em;
+  text-align: center;
+  width: 40%;
+  padding: 1em;
+}
+
+.searchWrapper {
+  width: 30%;
+}
+
+.search {
+  display: flex;
+  width: 200px;
+  height: 40px;
+  border: 1px solid blue;
+  /* align-self: flex-end; */
 }
 
 .dexLayout {
@@ -53,7 +87,4 @@
   background: mediumslateblue;
 }
 
-.sampleInput {
-  width: 120px;
-  height: 40px;
-}
+

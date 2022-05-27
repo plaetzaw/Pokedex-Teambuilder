@@ -12,31 +12,27 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  width: 30%;
+  /* width: 30%; */
 }
 
 .headerMiniCol {
   display: flex;
   flex-direction: column;
+  text-align: center;
 }
 
 .titleText {
   font-size: 2em;
   text-align: center;
-  width: 40%;
+  /* width: 40%; */
   padding: 1em;
-}
-
-.searchWrapper {
-  width: 30%;
 }
 
 .search {
   display: flex;
-  width: 200px;
+  width: 240px;
   height: 40px;
   border: 1px solid blue;
-  /* align-self: flex-end; */
 }
 
 .dexLayout {
@@ -87,4 +83,24 @@
   background: mediumslateblue;
 }
 
+.mobileTitleText {
+  display: none;
+}
 
+@media screen and (max-width: 600px) {
+  .titleText {
+    display: none;
+  }
+  .header {
+    flex-direction: column;
+  }
+  .mobileTitleText {
+    display: flex;
+    font-size: 1.3em;
+    text-align: center;
+    /* padding: 1em; */
+  }
+  .search {
+    width: 300px;
+  }
+}
